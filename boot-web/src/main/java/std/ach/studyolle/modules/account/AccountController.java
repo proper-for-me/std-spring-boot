@@ -23,8 +23,8 @@ import javax.validation.Valid;
 public class AccountController {
 
 	private final SignupFormValidator signupFormValidator;
-	private final AccountRepository accountRepository;
-	private final JavaMailSender javaMailSender;
+	private final AccountService accountService;
+
 	@InitBinder("signUpForm")
 	public void initBinder(WebDataBinder webDataBinder){
 		webDataBinder.addValidators(signupFormValidator);
@@ -51,25 +51,10 @@ public class AccountController {
 			return "account/signup";
 		}
 
-		Account account = Account.builder()
-				.email(signUpForm.getEmail())
-				.nickname(signUpForm.getNickname())
-				.password(signUpForm.getPassword())
-				.studyCreatedByWeb(true)
-				.studyEnrollmentResultByWeb(true)
-				.studyUpdatedByWeb(true)
-				.build()
-				;
-		Account newAccount = accountRepository.save(account);
-
-		newAccount.generateEmailCheckToken();
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-		simpleMailMessage.setTo(signUpForm.getEmail());
-		simpleMailMessage.setSubject("회원가이인증");
-		simpleMailMessage.setText("/check-email?token=" +
-				newAccount.getEmailCheckToken() + "&email=" + newAccount.getEmail());
-		javaMailSender.send(simpleMailMessage);
+		accountService.processNewAccount(signUpForm);
 		return "account/signup" ;
 	}
+
+
 
 }
