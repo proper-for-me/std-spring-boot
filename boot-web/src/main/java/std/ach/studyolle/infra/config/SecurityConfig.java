@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         log.debug(PathRequest.toStaticResources().atCommonLocations().toString());
         web.ignoring()
                 .antMatchers("/")
-                .antMatchers("/signup")
+                .antMatchers("/signup", "/check-email-token")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
         // .antMatchers("/", "/login", "/signup", "/check-email-token",
         // "/email-login", "/login-by-email", "/search/study")
@@ -38,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/**").permitAll()
-//                .mvcMatchers("/", "/login", "/signup", "/check-email-token",
-//                        "/email-login", "/login-by-email", "/search/study").permitAll()
-//                .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
-//                .anyRequest().authenticated()
+        http.authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .mvcMatchers("/", "/login", "/signup", "/check-email-token",
+                        "/email-login", "/login-by-email", "/search/study").permitAll()
+                .mvcMatchers(HttpMethod.GET, "/profile/*").permitAll()
+                .anyRequest().authenticated();
 //        ;
         //;
         //        http.formLogin()

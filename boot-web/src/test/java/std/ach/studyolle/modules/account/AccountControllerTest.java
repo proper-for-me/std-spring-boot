@@ -74,8 +74,8 @@ class AccountControllerTest {
                 .param("email", "abc@email.com")
                 .param("password","12345678")
                 .with(csrf()) )
-                .andExpect(status().isOk())
-                .andExpect(view().name("account/signup"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"))
                 .andDo(print())
                 ;
 

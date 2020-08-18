@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
 @Slf4j
@@ -24,7 +25,7 @@ public class AccountController {
 
 	private final SignupFormValidator signupFormValidator;
 	private final AccountService accountService;
-
+	private final AccountRepository accountRepository;
 	@InitBinder("signUpForm")
 	public void initBinder(WebDataBinder webDataBinder){
 		webDataBinder.addValidators(signupFormValidator);
@@ -52,9 +53,36 @@ public class AccountController {
 		}
 
 		accountService.processNewAccount(signUpForm);
-		return "account/signup" ;
+		return "redirect:/" ;
 	}
 
 
+	/*GET “/check-email-token” token=${token} email=${email} 요청 처리
+	이메일이 정확하지 않은 경우에 대한 에러 처리
+	토큰이 정확하지 않은 경우에 대한 에러 처리
+	이메일과 토큰이 정확한 경우 가입 완료 처리
+	가입 일시 설정
+	이메일 인증 여부 true로 설정*/
+	@GetMapping("/check-email-token")
+	public String checkEmailToken(String token, String email, Model model){
+		Account account = accountRepository.findByEmail(email);
+		String view = "account/checked-email";
+		if(account == null){
+			model.addAttribute("error", "wrong email");
+			return view;
+		}
+
+		if(!account.getEmailCheckToken().equals(token)){
+			model.addAttribute("error", "wrong token");
+			return view;
+		}
+
+		account.setEmailVerified(true);
+		account.setJoinedAt(LocalDateTime.now());
+		model.addAttribute("numberOfUser", accountRepository.count());
+		model.addAttribute("nickname", account.getNickname());
+
+		return view;
+	}
 
 }
