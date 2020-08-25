@@ -92,5 +92,6 @@
 		<module>boot-batch</module>
 		<module>boot-test</module>
 		<module>boot-web</module>
-	</modules>
+        <module>boot-sec</module>
+    </modules>
 </project>

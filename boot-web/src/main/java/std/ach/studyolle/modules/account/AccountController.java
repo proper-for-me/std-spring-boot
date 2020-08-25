@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -34,13 +36,16 @@ public class AccountController {
 	@GetMapping("/")
 	public String index(Model model) {
 		log.debug(" rooot / 인덱스 ");
+		List studyList = new ArrayList();
+		model.addAttribute(studyList);
 		return "index" ;
 	}
 
 	@GetMapping("/signup")
 	public String signUpForm(Model model) {
 		log.debug(" signUpForm / account/signup ");
-
+		List studyList = new ArrayList();
+		model.addAttribute(studyList);
 		model.addAttribute("signUpForm", new SignUpForm());
 		return "account/signup" ;
 	}
@@ -52,7 +57,8 @@ public class AccountController {
 			return "account/signup";
 		}
 
-		accountService.processNewAccount(signUpForm);
+		Account account = accountService.processNewAccount(signUpForm);
+		accountService.login(account);
 		return "redirect:/" ;
 	}
 
@@ -72,13 +78,14 @@ public class AccountController {
 			return view;
 		}
 
-		if(!account.getEmailCheckToken().equals(token)){
+
+		if(!account.isValidToken(token)){
 			model.addAttribute("error", "wrong token");
 			return view;
 		}
 
-		account.setEmailVerified(true);
-		account.setJoinedAt(LocalDateTime.now());
+
+		account.completeSignUp();
 		model.addAttribute("numberOfUser", accountRepository.count());
 		model.addAttribute("nickname", account.getNickname());
 
