@@ -31,13 +31,13 @@ public class AccountController {
 		webDataBinder.addValidators(signupFormValidator);
 	}
 
-	@GetMapping("/")
-	public String index(Model model) {
-		log.debug(" rooot / 인덱스 ");
-		return "index" ;
-	}
+//	@GetMapping("/")
+//	public String index(Model model) {
+//		log.debug(" rooot / 인덱스 ");
+//		return "index" ;
+//	}
 
-	@GetMapping("/signup")
+	@GetMapping("/sign-up")
 	public String signUpForm(Model model) {
 		log.debug(" signUpForm / account/signup ");
 
@@ -45,7 +45,7 @@ public class AccountController {
 		return "account/signup" ;
 	}
 
-	@PostMapping("/signup")
+	@PostMapping("/sign-up")
 	public String signUpSubmit(@Valid SignUpForm signUpForm, Errors errors) {
 
 		if(errors.hasErrors()){

@@ -1,15 +1,8 @@
 package std.ach.studyolle.infra.config;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import lombok.RequiredArgsConstructor;
 
 //@Configuration
 //@RequiredArgsConstructor
@@ -28,3 +21,15 @@ import lombok.RequiredArgsConstructor;
 //            .excludePathPatterns(staticResourcesPath);
 //    }
 //}
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+  // 요청 - 뷰 연결
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("main");
+ //   registry.addViewController("/login").setViewName("login");
+    registry.addViewController("/admin").setViewName("admin");
+    registry.addViewController("/signup").setViewName("signup");
+  }
+}
