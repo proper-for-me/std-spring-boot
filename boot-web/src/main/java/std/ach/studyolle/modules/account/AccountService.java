@@ -75,7 +75,6 @@ public class AccountService {
                 List.of(new SimpleGrantedAuthority("ROLE_USER"))
         );
 
-
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);
