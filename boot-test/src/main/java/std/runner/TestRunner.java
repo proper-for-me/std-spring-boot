@@ -26,6 +26,8 @@ public class TestRunner implements ApplicationRunner {
 		ApiInfoMang.getMemberInfo.setUrl(apiUrl);
 		log.debug(apiUrl);
 		log.debug(ApiInfoMang.getMemberInfo.getUrl());
+
+		log.debug("fork && push");
 	}
 
 
