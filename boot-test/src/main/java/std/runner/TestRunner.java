@@ -26,6 +26,8 @@ public class TestRunner implements ApplicationRunner {
 		ApiInfoMang.getMemberInfo.setUrl(apiUrl);
 		log.debug(apiUrl);
 		log.debug(ApiInfoMang.getMemberInfo.getUrl());
+
+		log.debug("fork && push ++ xxx ");
 		log.debug("=====================https://github.com/proper-for-me/std-spring-boot/edit/develop/boot-test/src/main/java/std/runner/TestRunner.java"
 			  +"============원본에서 수정===============================");
 	}
