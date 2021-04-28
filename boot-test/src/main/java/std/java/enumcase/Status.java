@@ -17,7 +17,7 @@ public enum Status implements EnumMapperType
 
 	@Override
 	public String getCode() {
-		// TODO Auto-generated method stub
+		// not
 		return name();
 	}
 
